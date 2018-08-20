@@ -1,0 +1,27 @@
+#board {
+    /* background-color: black; */
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: center;
+}
+
+.column {
+    /* background-color: pink; */
+    width: 80px;
+    height: 560px;
+    border: .5px solid black;
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column-reverse;
+    
+}
+.disc {
+    margin: 5px;
+    width: 70px;
+    height: 70px;
+    /* background-color: red; */
+    border-radius: 1000px;
+
+}
