@@ -109,13 +109,13 @@ function checkForWinner() {
 function checkVertical() {
     let result = false;
     for (let x = 0; x < lenghtOfX; x++) {
-    for (let y = 0; y < edgeY; y++) {
+        for (let y = 0; y < edgeY; y++) {
             cell = boardData[y][x];
             cell2 = boardData[y + 1][x];
             cell3 = boardData[y + 2][x];
             cell4 = boardData[y + 3][x];
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
-                console.log('match found');
+                // console.log('match found');
                 result = true;
             }
         }
@@ -125,7 +125,6 @@ function checkVertical() {
 
 function checkHorizontal() {
     let result = false;
-    cell = boardData[0][6]
     for (let y = 0; y < lengthOfY; y++) {
         for (let x = 0; x < edgeX; x++) {
             cell = boardData[y][x]
@@ -133,7 +132,7 @@ function checkHorizontal() {
             cell3 = boardData[y][x + 2]
             cell4 = boardData[y][x + 3]
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
-                console.log('match found');
+                // console.log('match found');
                 result = true;
             }
         }
@@ -142,11 +141,37 @@ function checkHorizontal() {
 }
 
 function checkDiagonallyDownRight() {
-    
+    let result = false;
+    for (let y = 0; y < edgeY; y++) {
+        for (let x = 0; x < edgeX; x++) {
+            cell = boardData[y][x];
+            cell2 = boardData[y + 1][x + 1];
+            cell3 = boardData[y + 2][x + 2];
+            cell4 = boardData[y + 3][x + 3];
+            if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
+                console.log('diagonal down match found');
+                result = true;
+            }
+        }
+    }
+    return result;
 }
 
 function checkDiagonallyUpRight() {
-
+    let result = false;
+    for (let y = 3; y < lengthOfY; y++) {
+        for (let x = 0; x < edgeX; x++) {
+            cell = boardData[y][x];
+            cell2 = boardData[y - 1][x + 1];
+            cell3 = boardData[y - 2][x + 2];
+            cell4 = boardData[y - 3][x + 3];
+            if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
+                console.log('diagonal up to the right match found');
+                result = true;
+            }
+        }
+    }
+    return result;
 }
 
 function displayWinner(winner) {
