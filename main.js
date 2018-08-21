@@ -1,5 +1,6 @@
 let columns = [];
 let board = document.getElementById('board');
+let currentDiscDiv = document.getElementById('currentDisc');
 let currentPlayer = 'red';
 let nextPlayer = 'black';
 let winner = '';
@@ -80,7 +81,6 @@ function dropDisk(event) {
             removeListeners(columns);
         }
         switchPlayers();
-        // console.log(boardData)
     }
 }
 
@@ -88,6 +88,13 @@ function switchPlayers() {
     let temp = nextPlayer;
     nextPlayer = currentPlayer;
     currentPlayer = temp;
+    currentDiscDiv.style.backgroundColor = currentPlayer;
+    let text = document.createTextNode(currentPlayer + "'s turn")
+    let p = document.createElement('span');
+    p.appendChild(text);
+    currentDiscDiv.innerHTML = "";
+    currentDiscDiv.appendChild(p);
+
 }
 
 function addToBoardData(column, currentPlayer) {
@@ -132,7 +139,6 @@ function checkHorizontal() {
             cell3 = boardData[y][x + 2]
             cell4 = boardData[y][x + 3]
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
-                // console.log('match found');
                 result = true;
             }
         }
@@ -149,7 +155,6 @@ function checkDiagonallyDownRight() {
             cell3 = boardData[y + 2][x + 2];
             cell4 = boardData[y + 3][x + 3];
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
-                console.log('diagonal down match found');
                 result = true;
             }
         }
@@ -166,7 +171,6 @@ function checkDiagonallyUpRight() {
             cell3 = boardData[y - 2][x + 2];
             cell4 = boardData[y - 3][x + 3];
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
-                console.log('diagonal up to the right match found');
                 result = true;
             }
         }
@@ -176,8 +180,9 @@ function checkDiagonallyUpRight() {
 function displayWinner(winner) {
     winner = winner.slice(0,1).toUpperCase() + winner.slice(1);
     let text = document.createTextNode(winner + " wins!");
-    let p = document.createElement('h3');
+    let p = document.createElement('h4');
     p.appendChild(text);
     let dest = document.getElementById('winnerDiv');
+    dest.innerHTML = "";
     dest.appendChild(p);
 }

@@ -6,7 +6,6 @@
 }
 
 #wrapper {
-    /* width: calc(80 * 7px); */
     margin: auto;
 
 }
@@ -20,6 +19,16 @@
     height: 50px;
     display: flex;
     justify-content: center;
+}
+#currentDisc {
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    height: 20px;
+    border: 1px solid gray;
+    margin-right: 5px;
+    color: white;
+    background-color: red;
 }
 
 .column {
