@@ -5,6 +5,23 @@
     justify-content: center;
 }
 
+#wrapper {
+    /* width: calc(80 * 7px); */
+    margin: auto;
+
+}
+
+#titleDiv {
+    display: flex;
+    justify-content: center;
+}
+
+#winnerDiv {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+}
+
 .column {
     /* background-color: pink; */
     width: 80px;
@@ -23,5 +40,6 @@
     height: 70px;
     /* background-color: red; */
     border-radius: 1000px;
+    padding: 0px;
 
 }

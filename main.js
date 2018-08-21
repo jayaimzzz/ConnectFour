@@ -173,10 +173,10 @@ function checkDiagonallyUpRight() {
     }
     return result;
 }
-
 function displayWinner(winner) {
+    winner = winner.slice(0,1).toUpperCase() + winner.slice(1);
     let text = document.createTextNode(winner + " wins!");
-    let p = document.createElement('p');
+    let p = document.createElement('h3');
     p.appendChild(text);
     let dest = document.getElementById('winnerDiv');
     dest.appendChild(p);
