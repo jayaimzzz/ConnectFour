@@ -67,12 +67,19 @@ function roomInColumn(column) {
     }
     return result;
 }
+function howManyPixelsAboveLastDisc(column){
+    let result = 0;
+    console.log(column.childElementCount)
+    result = 480 - (column.childElementCount * 80);
+    return result;
+}
 
 function dropDisk(event) {
     const column = event.currentTarget;
     if (roomInColumn(column)) {
         let disk = createDisk(currentPlayer);
         column.appendChild(disk);
+        animateDiscDropping(disk, column);
         addToBoardData(column, currentPlayer)
         checkForWinner();
         if (checkForWinner()) {
@@ -81,6 +88,24 @@ function dropDisk(event) {
             removeListeners(columns);
         }
         switchPlayers();
+    }
+}
+
+function animateDiscDropping(disk, column) {
+    console.log(howManyPixelsAboveLastDisc(column))
+    let marginBottom = howManyPixelsAboveLastDisc(column)
+    let id = setInterval(frame, 7)
+    let i = 1;
+    function frame(){
+        if (marginBottom <= 5){
+            clearInterval(id);
+            marginBottom = 5;
+            disk.style.marginBottom = marginBottom + 'px';
+        } else{
+            marginBottom = marginBottom - (1 + i);
+            i = i + .1;
+            disk.style.marginBottom = marginBottom + 'px';
+        }
     }
 }
 
@@ -177,8 +202,9 @@ function checkDiagonallyUpRight() {
     }
     return result;
 }
+
 function displayWinner(winner) {
-    winner = winner.slice(0,1).toUpperCase() + winner.slice(1);
+    winner = winner.slice(0, 1).toUpperCase() + winner.slice(1);
     let text = document.createTextNode(winner + " wins!");
     let p = document.createElement('h4');
     p.appendChild(text);
