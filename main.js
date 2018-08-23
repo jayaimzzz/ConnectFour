@@ -12,7 +12,6 @@ let boardData = [
     ['0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0'],
-
 ]
 const edgeX = boardData[0].length - 3;
 const edgeY = boardData.length - 3;
@@ -22,6 +21,10 @@ let cell = '';
 let cell2 = '';
 let cell3 = '';
 let cell4 = '';
+let x = 0;
+let y = 0;
+let discToDrop = document.getElementById('discToDrop')
+
 
 
 createColumns(7)
@@ -69,7 +72,6 @@ function roomInColumn(column) {
 }
 function howManyPixelsAboveLastDisc(column){
     let result = 0;
-    console.log(column.childElementCount)
     result = 480 - (column.childElementCount * 80);
     return result;
 }
@@ -81,18 +83,19 @@ function dropDisk(event) {
         column.appendChild(disk);
         animateDiscDropping(disk, column);
         addToBoardData(column, currentPlayer)
-        checkForWinner();
-        if (checkForWinner()) {
+        checkForWinner(boardData);
+        if (checkForWinner(boardData)) {
             winner = currentPlayer;
             displayWinner(winner);
             removeListeners(columns);
         }
         switchPlayers();
+        
+
     }
 }
 
 function animateDiscDropping(disk, column) {
-    console.log(howManyPixelsAboveLastDisc(column))
     let marginBottom = howManyPixelsAboveLastDisc(column)
     let id = setInterval(frame, 7)
     let i = 1;
@@ -101,7 +104,7 @@ function animateDiscDropping(disk, column) {
             clearInterval(id);
             marginBottom = 5;
             disk.style.marginBottom = marginBottom + 'px';
-        } else{
+        } else {
             marginBottom = marginBottom - (1 + i);
             i = i + .1;
             disk.style.marginBottom = marginBottom + 'px';
@@ -113,14 +116,25 @@ function switchPlayers() {
     let temp = nextPlayer;
     nextPlayer = currentPlayer;
     currentPlayer = temp;
-    currentDiscDiv.style.backgroundColor = currentPlayer;
-    let text = document.createTextNode(currentPlayer + "'s turn")
-    let p = document.createElement('span');
-    p.appendChild(text);
-    currentDiscDiv.innerHTML = "";
-    currentDiscDiv.appendChild(p);
-
+    // currentDiscDiv.style.backgroundColor = currentPlayer;
+    // let text = document.createTextNode(currentPlayer + "'s turn")
+    // let p = document.createElement('span');
+    // p.appendChild(text);
+    // currentDiscDiv.innerHTML = "";
+    // currentDiscDiv.appendChild(p);
+    discToDrop.style.backgroundColor = currentPlayer;
 }
+
+board.onmousemove = follow;
+
+function follow(event){
+    x = event.clientX - 25 + 'px';
+    y = event.clientY + 5 + 'px';
+    discToDrop.style.left = x;
+    discToDrop.style.top = y;
+  
+}
+
 
 function addToBoardData(column, currentPlayer) {
     let columnNumber = column.dataset.columnNumber;
@@ -131,23 +145,23 @@ function addToBoardData(column, currentPlayer) {
 
 
 
-function checkForWinner() {
-    if (checkVertical() || checkHorizontal() || checkDiagonallyDownRight() || checkDiagonallyUpRight()) {
+function checkForWinner(a) {
+    isThereAMatch = false;
+    if (checkVertical(a) || checkHorizontal(a) || checkDiagonallyDownRight(a) || checkDiagonallyUpRight(a)) {
         isThereAMatch = true;
     }
     return isThereAMatch;
 }
 
-function checkVertical() {
+function checkVertical(a) {
     let result = false;
     for (let x = 0; x < lenghtOfX; x++) {
         for (let y = 0; y < edgeY; y++) {
-            cell = boardData[y][x];
-            cell2 = boardData[y + 1][x];
-            cell3 = boardData[y + 2][x];
-            cell4 = boardData[y + 3][x];
+            cell = a[y][x];
+            cell2 = a[y + 1][x];
+            cell3 = a[y + 2][x];
+            cell4 = a[y + 3][x];
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
-                // console.log('match found');
                 result = true;
             }
         }
@@ -155,14 +169,14 @@ function checkVertical() {
     return result;
 }
 
-function checkHorizontal() {
+function checkHorizontal(a) {
     let result = false;
     for (let y = 0; y < lengthOfY; y++) {
         for (let x = 0; x < edgeX; x++) {
-            cell = boardData[y][x]
-            cell2 = boardData[y][x + 1]
-            cell3 = boardData[y][x + 2]
-            cell4 = boardData[y][x + 3]
+            cell = a[y][x]
+            cell2 = a[y][x + 1]
+            cell3 = a[y][x + 2]
+            cell4 = a[y][x + 3]
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
                 result = true;
             }
@@ -171,14 +185,14 @@ function checkHorizontal() {
     return result;
 }
 
-function checkDiagonallyDownRight() {
+function checkDiagonallyDownRight(a) {
     let result = false;
     for (let y = 0; y < edgeY; y++) {
         for (let x = 0; x < edgeX; x++) {
-            cell = boardData[y][x];
-            cell2 = boardData[y + 1][x + 1];
-            cell3 = boardData[y + 2][x + 2];
-            cell4 = boardData[y + 3][x + 3];
+            cell = a[y][x];
+            cell2 = a[y + 1][x + 1];
+            cell3 = a[y + 2][x + 2];
+            cell4 = a[y + 3][x + 3];
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
                 result = true;
             }
@@ -187,14 +201,14 @@ function checkDiagonallyDownRight() {
     return result;
 }
 
-function checkDiagonallyUpRight() {
+function checkDiagonallyUpRight(a) {
     let result = false;
     for (let y = 3; y < lengthOfY; y++) {
         for (let x = 0; x < edgeX; x++) {
-            cell = boardData[y][x];
-            cell2 = boardData[y - 1][x + 1];
-            cell3 = boardData[y - 2][x + 2];
-            cell4 = boardData[y - 3][x + 3];
+            cell = a[y][x];
+            cell2 = a[y - 1][x + 1];
+            cell3 = a[y - 2][x + 2];
+            cell4 = a[y - 3][x + 3];
             if (cell == cell2 && cell == cell3 && cell == cell4 && cell !== '0') {
                 result = true;
             }
@@ -206,9 +220,18 @@ function checkDiagonallyUpRight() {
 function displayWinner(winner) {
     winner = winner.slice(0, 1).toUpperCase() + winner.slice(1);
     let text = document.createTextNode(winner + " wins!");
-    let p = document.createElement('h4');
+    let p = document.createElement('h2');
     p.appendChild(text);
     let dest = document.getElementById('winnerDiv');
     dest.innerHTML = "";
     dest.appendChild(p);
+}
+
+function testCheckForWin(testData, expectedResult){
+    result = checkForWinner(testData);
+    console.assert(result === expectedResult, {
+        "Data": testData,
+        "expected result": expectedResult,
+        "result": result
+    })
 }
