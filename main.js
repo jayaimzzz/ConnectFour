@@ -5,6 +5,8 @@ let currentPlayer = 'red';
 let nextPlayer = 'black';
 let winner = '';
 let isThereAMatch = false;
+let lastMove = '';
+let moveToRedo = '';
 let boardData = [
     ['0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0'],
@@ -82,6 +84,7 @@ function dropDisk(event) {
     if (roomInColumn(column)) {
         let disk = createDisk(currentPlayer);
         column.appendChild(disk);
+        createLastMove(column)
         animateDiscDropping(disk, column);
         addToBoardData(column, currentPlayer)
         checkForWinner(boardData);
@@ -92,9 +95,30 @@ function dropDisk(event) {
             removeListeners(columns);
         }
         switchPlayers();
-
-
     }
+}
+
+
+let undoButton = document.getElementById('undoButton');
+if (lastMove == '') {
+    undoButton.addEventListener('click', undo)
+} 
+
+let redoButton = document.getElementById('redoButton')
+if (moveToRedo == ''){
+    redoButton.addEventListener('click', redo)
+}
+
+function undo() {
+    
+}
+
+function redo() {
+
+}
+
+function createLastMove(columnNumber, ) {
+    lastMove = columnNumber;
 }
 
 function animateDiscDropping(disk, column) {
@@ -241,10 +265,12 @@ function testCheckForWin(testData, expectedResult) {
 
 let element = document.getElementById('titleDiv');
 let titleHeader = document.getElementById('titleHeader');
+
 function removeTitleIfOnShortScreen() {
     if (screen.height < 380 && document.getElementById('titleDiv')) {
         titleHeader.remove();
-    } else { element.appendChild(titleHeader)
+    } else {
+        element.appendChild(titleHeader)
 
     }
 }
