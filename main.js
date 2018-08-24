@@ -110,14 +110,23 @@ if (moveToRedo == ''){
 }
 
 function undo() {
+    undoButton.style.color = 'lightgrey';
+    undoButton.removeEventListener('click', undo)
+    redoButton.style.color = 'black';
+    redoButton.addEventListener('click', redo)
+    removeFromBoardData(lastMove);
+    lastMove.removeChild(lastmove.lastChild);
     
 }
 
 function redo() {
-
+    undoButton.style.color = 'black';
+    redoButton.style.color = 'grey';
+    undoButton.addEventListener('click', undo)
+    redoButton.removeEventListener('click', redo)
 }
 
-function createLastMove(columnNumber, ) {
+function createLastMove(columnNumber) {
     lastMove = columnNumber;
 }
 
@@ -167,7 +176,10 @@ function addToBoardData(column, currentPlayer) {
     let columnNumber = column.dataset.columnNumber;
     let numberOfDiscsInColumn = column.childElementCount;
     boardData[6 - numberOfDiscsInColumn][columnNumber] = currentPlayer;
-
+}
+function removeFromBoardData(lastMove){
+    let numberOfDiscsInColumn = lastMove.childElementCount;
+    // boardData[6 - numberOfDiscsInColumn][lastMove.dataset.columnNumber] = '';
 }
 
 
