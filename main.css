@@ -8,6 +8,7 @@
 #wrapper {
     margin: auto;
 }
+
 #overLay {
     height: 510px;
     width: 600px;
@@ -16,9 +17,7 @@
     position: absolute;
     left: calc(50% - 300px);
     margin: auto;
-   
     top: 100px;
-
 }
 
 #titleDiv {
@@ -35,8 +34,8 @@
     border-radius: 100px;
     display: flex;
     justify-content: center;
-    
 }
+
 #currentDisc {
     width: 100px;
     height: 20px;
@@ -58,8 +57,8 @@
     display: flex;
     flex-direction: column-reverse;
     background-color: lightblue;
-    
 }
+
 .disc {
     margin: 5px;
     margin-bottom: 480px;
@@ -67,7 +66,6 @@
     height: 70px;
     border-radius: 1000px;
     padding: 0px;
-
 }
 
 #discToDrop {
@@ -76,4 +74,47 @@
     background-color: red;
     position: absolute;
     border-radius: 1000px;
+}
+
+@media (max-width: 900px) {
+    body {
+        margin: 0px;
+        /* height: 10%; */
+    }
+    #overLay {
+        /* width: 10%; */
+        margin: 0px;
+    }
+    #wrapper {
+        /* width: 90vw; */
+        margin: 0px;
+    }
+    #titleDiv {
+        width: 100%;
+    }
+    #board {
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+    .column {
+        width: 12%;
+        height: 80vh;
+        max-height: 550px;
+    }
+    .disc {
+        height: 10.5vh;
+        width: 10.5vw;
+    }
+}
+
+@media (max-width: 380px) {
+    .column {
+        width: 14%;
+        max-height: 470px;
+    }
+    .disc {
+        height: 10vh;
+        width: 11vw;
+    }
 }

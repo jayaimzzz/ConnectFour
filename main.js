@@ -70,7 +70,8 @@ function roomInColumn(column) {
     }
     return result;
 }
-function howManyPixelsAboveLastDisc(column){
+
+function howManyPixelsAboveLastDisc(column) {
     let result = 0;
     result = 480 - (column.childElementCount * 80);
     return result;
@@ -84,13 +85,14 @@ function dropDisk(event) {
         animateDiscDropping(disk, column);
         addToBoardData(column, currentPlayer)
         checkForWinner(boardData);
+        removeTitleIfOnShortScreen();
         if (checkForWinner(boardData)) {
             winner = currentPlayer;
             displayWinner(winner);
             removeListeners(columns);
         }
         switchPlayers();
-        
+
 
     }
 }
@@ -99,8 +101,9 @@ function animateDiscDropping(disk, column) {
     let marginBottom = howManyPixelsAboveLastDisc(column)
     let id = setInterval(frame, 7)
     let i = 1;
-    function frame(){
-        if (marginBottom <= 5){
+
+    function frame() {
+        if (marginBottom <= 5) {
             clearInterval(id);
             marginBottom = 5;
             disk.style.marginBottom = marginBottom + 'px';
@@ -127,12 +130,12 @@ function switchPlayers() {
 
 board.onmousemove = follow;
 
-function follow(event){
+function follow(event) {
     x = event.clientX - 25 + 'px';
     y = event.clientY + 5 + 'px';
     discToDrop.style.left = x;
     discToDrop.style.top = y;
-  
+
 }
 
 
@@ -227,11 +230,21 @@ function displayWinner(winner) {
     dest.appendChild(p);
 }
 
-function testCheckForWin(testData, expectedResult){
+function testCheckForWin(testData, expectedResult) {
     result = checkForWinner(testData);
     console.assert(result === expectedResult, {
         "Data": testData,
         "expected result": expectedResult,
         "result": result
     })
+}
+
+let element = document.getElementById('titleDiv');
+let titleHeader = document.getElementById('titleHeader');
+function removeTitleIfOnShortScreen() {
+    if (screen.height < 380 && document.getElementById('titleDiv')) {
+        titleHeader.remove();
+    } else { element.appendChild(titleHeader)
+
+    }
 }
